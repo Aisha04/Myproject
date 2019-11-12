@@ -21,7 +21,10 @@ $(document).ready(function() {
 connectioncheck();
 });
 </script>
-
+<script>
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+</script>
 <style>
 #head{
   background-color: Green;

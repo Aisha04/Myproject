@@ -87,7 +87,7 @@ $( "#mypanel" ).trigger( "updatelayout" );
         <a href="#page" data-icon="recycle" class="ui-btn  ui-btn-a  ui-icon-recycle ui-btn-icon-left">Paper</a>
           <a href="#pagefive" data-icon="recycle" class="ui-btn  ui-btn-a  ui-icon-recycle ui-btn-icon-left">Glass</a>
       <a href="#pagethree" data-icon="location" class="ui-btn  ui-btn-a  ui-icon-location ui-btn-icon-left">Disposal</a>
-
+  <a href="#pagenine" data-icon="location" class="ui-btn  ui-btn-a  ui-icon-location ui-btn-icon-left">Login</a>
 </div>
     <div data-role="header" id="head">
 <!--<a href = "#mypanel" class = "ui-btn ui-btn-inline ui-btn-a  ui-icon-bars ui-btn-icon-left"></a>-->
@@ -422,7 +422,164 @@ $(document).on("pagecreate", function(){
 </div>
 
 
+<div data-role="page" id="pagenine" data-theme="a">
 
+<div data-role="panel" id="mypanel" data-position="left" data-display="overlay">
+<a href = "#pagenine" data-rel = "close" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">notext</a>
+
+    <a href="#pageone" data-icon="home" class="ui-btn  ui-btn-a  ui-icon-home ui-btn-icon-left ui-btn-active ui-state-persist">Home</a>
+      <a href="#pagetwo" data-icon="recycle" class="ui-btn  ui-btn-a  ui-icon-recycle ui-btn-icon-left">Plastic</a>
+        <a href="#page" data-icon="recycle" class="ui-btn  ui-btn-a  ui-icon-recycle ui-btn-icon-left">Paper</a>
+          <a href="#pagefive" data-icon="recycle" class="ui-btn  ui-btn-a  ui-icon-recycle ui-btn-icon-left">Glass</a>
+      <a href="#pagethree" data-icon="location" class="ui-btn  ui-btn-a  ui-icon-location ui-btn-icon-left">Disposal</a>
+
+</div>
+    <div data-role="header" id="head">
+<!--<a href = "#mypanel" class = "ui-btn ui-btn-inline ui-btn-a  ui-icon-bars ui-btn-icon-left"></a>-->
+<a href = "#mypanel" class = "ui-btn  ui-btn-a  ui-icon-bars ui-btn-icon-left ui-btn-icon-notext ui-corner-all"></a>
+<h3>Go Green!</h3>
+
+</div>
+<div data-role="main" class="ui-content">
+<div>
+  <h3>Registration Form</h3>
+</div>
+<form method="post" onSubmit="return submitForm()">
+
+<div>
+  <input type="text" name="name" placeholder="Name" id="name" value="">
+</div>
+<div>
+  <input type="email" name="email" placeholder="Email" id="email" value="">
+</div>
+
+     <div>
+       <input type="text" name="address" placeholder="Address" id="address" value="">
+     </div>
+     <div>
+       <input type="text" name="username" placeholder="Username" id="username" value="">
+     </div>
+     <div>
+       <input type="password" name="password" placeholder="Password" id="password" value="" autocomplete="off">
+     </div>
+     <div>
+       <input type="password" name="cpassword" placeholder="Confirm Password" id="cpassword" value="" autocomplete="off">
+     </div>
+     <div>
+       <input type="submit" value="submit"/>
+     <button class="ui-shadow ui-btn ui-btn-inline ui-corner-all">Cancel</button>
+   </div>
+ </form>
+
+     </div>
+<div data-role="footer" id="footer">
+
+<h6>copyright 2019</h6>
+</div>
+<script type="text/javascript">
+
+document.addEventListener("deviceready", onDeviceReady, false);
+
+var db;
+
+function onDeviceReady(){
+
+alert("device ready");
+
+
+
+db=window.openDatabase("myUserDB", "1.0", "simple demo", "2*1024*1024");
+db.transaction(createDB, errorCB, successCB);
+}
+
+function createDB(tx){
+tx.executeSql('CREATE TABLE IF NOT EXISTS user(id INT, name TEXT, address TEXT, username TEXT, password TEXT)');
+}
+
+function errorCB(err){
+alert("SQL Error:"+err.code);
+}
+
+function successCB(){
+alert("Database & table Created");
+}
+
+function submitForm(){
+db.transaction(insertDB, errorCB);
+//console.log("onsubmit");
+$.mobile.changePage("#pageten", {reverse:false, transition:"slide"});
+
+return false;
+}
+
+function insertDB(tx){
+var name_c = $("[name='name']").val();
+</*var email_c = $("[name='email']").val();*/
+var address_c = $("[name='address']").val();
+var username_c = $("[name='username']").val();
+var password_c = $("[name='password']").val();
+var sql='INSERT INTO user(name, address, username, password) VALUES(?,?,?,?)';
+tx.executeSql(sql, [name_c, address_c, username_c, password_c], successQueryCB, errorCB);
+}
+
+function successQueryCB(tx){
+alert("Insert Success!");
+tx.executeSql('SELECT * FROM user', [], renderListCB, errorCB);
+}
+
+function renderListCB(tx, results){
+var htmlString = '';
+var len = results.rows.length;
+
+for(var i=0; i<len; i++){
+htmlString+='<li>'+results.rows.item(i).name+'<br>'+'<br>'+results.rows.item(i).address+'<br>'+results.rows.item(i).username+'</li>';
+}
+$('#resultList').html(htmlString);
+$('#resultList').listview('refresh');
+}
+</script>
+</div>
+</div>
+
+<!--start of page one-->
+
+<div data-role="page" id="pageten" data-theme="a">
+
+<div data-role="panel" id="mypanel" data-position="left" data-display="overlay">
+<a href = "#pageone" data-rel = "close" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">notext</a>
+
+    <a href="#pageone" data-icon="home" class="ui-btn  ui-btn-a  ui-icon-home ui-btn-icon-left ui-btn-active ui-state-persist">Home</a>
+      <a href="#pagetwo" data-icon="recycle" class="ui-btn  ui-btn-a  ui-icon-recycle ui-btn-icon-left">Plastic</a>
+        <a href="#page" data-icon="recycle" class="ui-btn  ui-btn-a  ui-icon-recycle ui-btn-icon-left">Paper</a>
+          <a href="#pagefive" data-icon="recycle" class="ui-btn  ui-btn-a  ui-icon-recycle ui-btn-icon-left">Glass</a>
+      <a href="#pagethree" data-icon="location" class="ui-btn  ui-btn-a  ui-icon-location ui-btn-icon-left">Disposal</a>
+  <a href="#pagenine" data-icon="location" class="ui-btn  ui-btn-a  ui-icon-location ui-btn-icon-left">Login</a>
+</div>
+    <div data-role="header" id="head">
+<!--<a href = "#mypanel" class = "ui-btn ui-btn-inline ui-btn-a  ui-icon-bars ui-btn-icon-left"></a>-->
+<a href = "#mypanel" class = "ui-btn  ui-btn-a  ui-icon-bars ui-btn-icon-left ui-btn-icon-notext ui-corner-all"></a>
+<h3>Go Green!</h3>
+
+</div>
+<div data-role="main" class="ui-content">
+  <div class="card">
+    <h3>Profile</h3>
+  <img src="profile.png" alt="user" style="width:100%">
+
+  <div id="output">
+  <ul data-role="listview" id="resultList">
+  </ul>
+  </div>
+
+
+</div>
+     </div>
+
+<div data-role="footer" id="footer">
+<h6>copyright 2019</h6>
+</div>
+</div>
+</div>
 
 </body>
 </html>
